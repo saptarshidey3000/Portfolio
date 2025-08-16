@@ -1,5 +1,4 @@
 import { ExternalLink, Github, Star } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 const ProjectsSection = () => {
   const projects = [
@@ -45,18 +44,6 @@ const ProjectsSection = () => {
     },
   ];
 
-  // Function to handle link clicks with better error handling
-  const handleLinkClick = (url, type) => {
-    try {
-      // Check if URL is valid
-      new URL(url);
-      window.open(url, '_blank', 'noopener,noreferrer');
-    } catch (error) {
-      console.error(`Invalid URL for ${type}:`, url);
-      alert(`Unable to open ${type === 'github' ? 'GitHub repository' : 'website'}. Please check the URL.`);
-    }
-  };
-
   return (
     <section id="projects" className="py-20 relative">
       {/* Background Decoration */}
@@ -81,7 +68,7 @@ const ProjectsSection = () => {
           {projects.map((project, index) => (
             <div
               key={project.title}
-              className={`bento-item p-6 group cursor-pointer hover-scale ${
+              className={`relative bg-card/50 backdrop-blur-sm border border-border/50 rounded-2xl p-6 group hover:border-primary/30 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 ${
                 project.featured && index === 0 
                   ? "md:col-span-2 lg:col-span-2" 
                   : project.featured && index === 1
@@ -124,19 +111,34 @@ const ProjectsSection = () => {
                 {project.tech.map((tech) => (
                   <span
                     key={tech}
-                    className="px-3 py-1 text-sm bg-surface rounded-full text-muted-foreground border border-border/50"
+                    className="px-3 py-1 text-sm bg-muted/30 rounded-full text-muted-foreground border border-border/30"
                   >
                     {tech}
                   </span>
                 ))}
               </div>
 
-              {/* Project Link */}
-              <div className="flex items-center justify-between">
-                <Button
-                  variant="outline"
-                  className="border-primary/30 hover:border-primary hover:bg-primary/10 group"
-                  onClick={() => handleLinkClick(project.link, project.type)}
+              {/* Project Link - FIXED VERSION */}
+              <div className="flex items-center justify-between relative z-20">
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center px-4 py-2 bg-transparent border-2 border-primary/40 hover:border-primary hover:bg-primary/10 rounded-lg transition-all duration-200 text-sm font-medium text-foreground hover:text-primary relative z-30 cursor-pointer"
+                  style={{ 
+                    pointerEvents: 'auto',
+                    position: 'relative',
+                    zIndex: 50
+                  }}
+                  onMouseEnter={(e) => {
+                    console.log('Mouse enter on link:', project.link);
+                  }}
+                  onClick={(e) => {
+                    console.log('Link clicked:', project.link);
+                    // Force open in new tab
+                    e.preventDefault();
+                    window.open(project.link, '_blank', 'noopener,noreferrer');
+                  }}
                 >
                   {project.type === "github" ? (
                     <>
@@ -149,16 +151,11 @@ const ProjectsSection = () => {
                       Live Demo
                     </>
                   )}
-                </Button>
+                </a>
                 
                 <div className="text-sm text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity">
                   {project.type === "github" ? "Open Source" : "Live Website"}
                 </div>
-              </div>
-
-              {/* Debug Info (Remove in production) */}
-              <div className="mt-2 text-xs text-muted-foreground/50">
-                URL: {project.link}
               </div>
             </div>
           ))}
@@ -166,14 +163,25 @@ const ProjectsSection = () => {
 
         {/* View More Projects */}
         <div className="text-center mt-12">
-          <Button
-            variant="outline"
-            className="border-primary/30 hover:border-primary hover:bg-primary/10 px-8 py-3"
-            onClick={() => handleLinkClick("https://github.com/saptarshidey3000", "github")}
+          <a
+            href="https://github.com/saptarshidey3000"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center px-8 py-3 bg-transparent border-2 border-primary/40 hover:border-primary hover:bg-primary/10 rounded-lg transition-all duration-200 text-sm font-medium text-foreground hover:text-primary cursor-pointer"
+            style={{ 
+              pointerEvents: 'auto',
+              position: 'relative',
+              zIndex: 50
+            }}
+            onClick={(e) => {
+              console.log('GitHub link clicked');
+              e.preventDefault();
+              window.open('https://github.com/saptarshidey3000', '_blank', 'noopener,noreferrer');
+            }}
           >
             <Github className="w-5 h-5 mr-2" />
             View All Projects on GitHub
-          </Button>
+          </a>
         </div>
       </div>
     </section>
