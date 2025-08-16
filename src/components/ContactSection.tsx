@@ -31,8 +31,8 @@ const ContactSection = () => {
             
             <div className="space-y-4">
               {[
-                { icon: Mail, label: "Email", value: "saptarshi@example.com" },
-                { icon: Phone, label: "Phone", value: "+91 XXXXX XXXXX" },
+                { icon: Mail, label: "Email", value: "saptarshidey3000@gmail.com" },
+                { icon: Phone, label: "Phone", value: "+91 7890789697" },
                 { icon: MapPin, label: "Location", value: "India" }
               ].map((contact, index) => (
                 <div
@@ -58,7 +58,7 @@ const ContactSection = () => {
                 <span className="font-medium">Available for new projects</span>
               </div>
               <p className="text-sm text-muted-foreground">
-                Currently accepting new clients for Q1 2024. Let's discuss your project timeline and requirements.
+                Currently accepting new clients . Let's discuss your project timeline and requirements.
               </p>
             </Card>
           </div>
