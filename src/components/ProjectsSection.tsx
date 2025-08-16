@@ -23,7 +23,7 @@ const ProjectsSection = () => {
       title: "Medikaasha Hospital",
       description: "Advanced hospital management system with patient portal, doctor scheduling, and medical record management.",
       tech: ["React.js", "Express.js", "MySQL", "Docker"],
-      link: "https://medikaashospital.com",
+      link: "https://medikaashospital.com/",
       type: "website",
       featured: false,
     },
@@ -31,7 +31,7 @@ const ProjectsSection = () => {
       title: "Kantsi Platform",
       description: "E-commerce platform with AI-powered recommendations, inventory management, and analytics dashboard.",
       tech: ["Next.js", "Django", "PostgreSQL", "AI/ML"],
-      link: "https://kantsi.in",
+      link: "https://kantsi.in/",
       type: "website",
       featured: false,
     },
@@ -44,6 +44,18 @@ const ProjectsSection = () => {
       featured: true,
     },
   ];
+
+  // Function to handle link clicks with better error handling
+  const handleLinkClick = (url, type) => {
+    try {
+      // Check if URL is valid
+      new URL(url);
+      window.open(url, '_blank', 'noopener,noreferrer');
+    } catch (error) {
+      console.error(`Invalid URL for ${type}:`, url);
+      alert(`Unable to open ${type === 'github' ? 'GitHub repository' : 'website'}. Please check the URL.`);
+    }
+  };
 
   return (
     <section id="projects" className="py-20 relative">
@@ -124,26 +136,29 @@ const ProjectsSection = () => {
                 <Button
                   variant="outline"
                   className="border-primary/30 hover:border-primary hover:bg-primary/10 group"
-                  asChild
+                  onClick={() => handleLinkClick(project.link, project.type)}
                 >
-                  <a href={project.link} target="_blank" rel="noopener noreferrer">
-                    {project.type === "github" ? (
-                      <>
-                        <Github className="w-4 h-4 mr-2" />
-                        View Code
-                      </>
-                    ) : (
-                      <>
-                        <ExternalLink className="w-4 h-4 mr-2" />
-                        Live Demo
-                      </>
-                    )}
-                  </a>
+                  {project.type === "github" ? (
+                    <>
+                      <Github className="w-4 h-4 mr-2" />
+                      View Code
+                    </>
+                  ) : (
+                    <>
+                      <ExternalLink className="w-4 h-4 mr-2" />
+                      Live Demo
+                    </>
+                  )}
                 </Button>
                 
                 <div className="text-sm text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity">
                   {project.type === "github" ? "Open Source" : "Live Website"}
                 </div>
+              </div>
+
+              {/* Debug Info (Remove in production) */}
+              <div className="mt-2 text-xs text-muted-foreground/50">
+                URL: {project.link}
               </div>
             </div>
           ))}
@@ -154,12 +169,10 @@ const ProjectsSection = () => {
           <Button
             variant="outline"
             className="border-primary/30 hover:border-primary hover:bg-primary/10 px-8 py-3"
-            asChild
+            onClick={() => handleLinkClick("https://github.com/saptarshidey3000", "github")}
           >
-            <a href="https://github.com/saptarshidey3000" target="_blank" rel="noopener noreferrer">
-              <Github className="w-5 h-5 mr-2" />
-              View All Projects on GitHub
-            </a>
+            <Github className="w-5 h-5 mr-2" />
+            View All Projects on GitHub
           </Button>
         </div>
       </div>
